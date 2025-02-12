@@ -35,6 +35,22 @@ RUN dnf install -y /tmp/xdmod.rpm && rm -f /tmp/xdmod.rpm
 RUN /usr/bin/xdmod-setup --non-interactive || echo "xdmod-setup requires further configuration"
 #! NEED TO BE ADJUSTED TO NON-INTERACTIVE MODE or to be run in docker
 
+RUN mkdir -p /etc/pki/tls/private /etc/pki/tls/certs
+
+
+RUN openssl req -new -newkey rsa:2048 -nodes -x509 -days 365 \
+-subj "/CN=localhost" \
+-keyout /etc/pki/tls/private/localhost.key \
+-out /etc/pki/tls/certs/localhost.crt
+
+RUN ls -l /etc/pki/tls/certs/localhost.crt && \
+    cat /etc/pki/tls/certs/localhost.crt | head -n 5
+
+
+RUN echo "ServerName localhost" >> /etc/httpd/conf/httpd.conf
+
+
+
 # Expose HTTP and HTTPS ports.
 EXPOSE 80 443
 
@@ -42,5 +58,6 @@ EXPOSE 80 443
 COPY start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
 
+# CMD ["/bin/bash"]
 # Define the default command to run when the container starts.
 CMD ["/usr/local/bin/start.sh"]
