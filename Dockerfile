@@ -32,9 +32,8 @@ COPY xdmod-${XDMOD_VERSION}-1.0.el8.noarch.rpm /tmp/xdmod.rpm
 RUN dnf install -y /tmp/xdmod.rpm && rm -f /tmp/xdmod.rpm
 
 # Run the XDMoD setup.
-# (You might need to provide a non-interactive flag or preconfigure settings.
-# In this example, any failure is logged and can be adjusted as needed.)
 RUN /usr/bin/xdmod-setup --non-interactive || echo "xdmod-setup requires further configuration"
+#! NEED TO BE ADJUSTED TO NON-INTERACTIVE MODE or to be run in docker
 
 # Expose HTTP and HTTPS ports.
 EXPOSE 80 443
