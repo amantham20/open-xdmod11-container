@@ -22,9 +22,17 @@ RUN dnf install -y httpd mariadb-server mariadb \
                nodejs libreoffice-writer chromium-headless librsvg2 perl-Image-ExifTool cronie logrotate postfix jq
 
 
+# Install SLURM and its dependencies.
+RUN dnf install -y dnf-plugins-core && \
+    dnf config-manager --set-enabled powertools
+RUN dnf install -y slurm munge munge-devel
+
 # Copy the Open XDMoD RPM into the container.
 # (Ensure the RPM file is in your build context with the expected name.)
 COPY xdmod-${XDMOD_VERSION}-1.0.el8.noarch.rpm /tmp/xdmod.rpm
+
+COPY xdmod-${XDMOD_VERSION}-1.0.el8.noarch.rpm .
+
 # RUN dnf install -y xdmod-11.0.0-1.0.el8.noarch.rpm
 # RUN xdmod-setup
 
