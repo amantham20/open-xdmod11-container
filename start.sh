@@ -16,6 +16,12 @@ sleep 10
 
 # (Optional) You could also start additional services like cron or postfix here
 
+
+# starting php-fpm
+mkdir -p /run/php-fpm
+
+php-fpm -D
+
 # Start Apache in the foreground
 echo "Starting Apache..."
 httpd -DFOREGROUND
