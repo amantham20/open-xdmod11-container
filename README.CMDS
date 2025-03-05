@@ -1,0 +1,2 @@
+docker build -t xdmod11 .
+docker run -dit -p 3002:80 -p 3003:443 xdmod11         
