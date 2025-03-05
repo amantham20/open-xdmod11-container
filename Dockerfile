@@ -94,6 +94,11 @@ RUN mv /etc/httpd/conf.d/ssl.conf /etc/httpd/conf.d/ssl.conf.bak
 RUN sed -i '30s/^.//' /etc/httpd/conf.d/xdmod.conf
 
 
+# Copy custom MariaDB config file
+COPY custom-mariadb.cnf /etc/my.cnf.d/
+
+# Copy initialization SQL script
+COPY init.sql /tmp/init.sql
 
 # CMD ["/bin/bash"]
 # Define the default command to run when the container starts.
